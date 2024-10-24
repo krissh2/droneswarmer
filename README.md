@@ -75,7 +75,7 @@ Search for: "Adafruit GPS Library" and Install
 6. Click the "Upload" Button
 
 ## Research Article 🔬
-To get a more in-depth and technical overview of Drone Swarmer, you can refer to this [research article](#)
+To get a more in-depth and technical overview of Drone Swarmer, you can refer to this [research article](https://medium.com/@angelinatsuboi/drone-swarmer-uncovering-vulnerabilities-in-open-drone-id-cdd8d1a23c2c)
 
 ## Future Improvements 🚀
 - Find a way to include multiple microcontroller boards to spoof more than 16 drones (current capacity)

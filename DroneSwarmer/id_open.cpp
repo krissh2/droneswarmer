@@ -71,10 +71,10 @@ ID_OpenDrone::ID_OpenDrone() {
   // scrambled, not poached
   // Nodemcu doesn't like certain mac addresses
   // setting the first value to 0 seems to solve this
-  WiFi_mac_addr[i] = 0;
+  WiFi_mac_addr[0] = 0x002;
   for (int i = 1; i < 6; i++) {
     // WiFi_mac_addr[i] = (uint8_t) (rand() % 100 + 100);
-    WiFi_mac_addr[i] = (uint8_t) (rand() % 256);
+    WiFi_mac_addr[i] = (uint8_t)(esp_random() & 0xFF);
   }
   
   memset(ssid,0,sizeof(ssid));

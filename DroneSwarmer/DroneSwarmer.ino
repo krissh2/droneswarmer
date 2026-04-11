@@ -55,6 +55,7 @@ void setup() {
   Serial.begin(115200);
   GPS.begin(9600);
   configureGPS();
+  randomSeed(os_random());  // ESP8266 hardware RNG - ensures unique drone IDs and positions each run
   startProgram = false;
 }
 
@@ -108,8 +109,8 @@ void loop() {
   if ((millis() - timer > 2000) && (startProgram == false)) {
     timer = millis(); // reset the timer
     if (GPS.fix) {
-      String combinedLat = String(GPS.latitude, 6) + String(GPS.lat);
-      latitude = convertToDecimalDegrees(combinedLat);
+      latitude  = (GPS.lat == 'S') ? -GPS.latitudeDegrees  : GPS.latitudeDegrees;
+      longitude = (GPS.lon == 'W') ? -GPS.longitudeDegrees : GPS.longitudeDegrees;
       String combinedLong = String(GPS.longitude, 6) + String(GPS.lon);
       longitude = convertToDecimalDegrees(combinedLong);
 
@@ -129,7 +130,6 @@ void loop() {
     // Serial.println("Updating...");
     for (int i = 0; i < num_spoofers; i++) {
       spoofers[i].update();
-      delay(200 / num_spoofers);
+      delayMicroseconds(200000UL / (unsigned long)num_spoofers);
     }
-  }
-}
+  }}

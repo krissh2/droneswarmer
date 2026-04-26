@@ -48,12 +48,12 @@ void Spoofer::update() {
   last_update = millis();
 
   // random number of satellites
-  utm_data.satellites = rand() % 8 + 8;
+  utm_data.satellites = os_random() % 8 + 8;
 
   // random acceleration to change speed
   // bias towards flying near the center
-  speed_m_x += float(rand() % int(2 * max_accel) - max_accel) / 1000.0 - 0.05 * x;
-  speed_m_y += float(rand() % int(2 * max_accel) - max_accel) / 1000.0 - 0.05 * y;
+  speed_m_x += float(os_random() % int(2 * max_accel) - max_accel) / 1000.0 - 0.05 * x;
+  speed_m_y += float(os_random() % int(2 * max_accel) - max_accel) / 1000.0 - 0.05 * y;
   speed_m_x = constrain(speed_m_x, -max_speed, max_speed);
   speed_m_y = constrain(speed_m_y, -max_speed, max_speed);
 
@@ -72,7 +72,7 @@ void Spoofer::update() {
   y += speed_m_y * time_elapsed_secs;
 
   // calculate new height
-  float climbrate = float(rand() % int(2 * max_climbrate) - max_climbrate) / 1000.0;
+  float climbrate = float(os_random() % int(2 * max_climbrate) - max_climbrate) / 1000.0;
   z = constrain(z + climbrate, 1.0, max_height);
   utm_data.alt_msl_m = utm_data.base_alt_m + z;
   utm_data.alt_agl_m = z;

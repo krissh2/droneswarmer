@@ -37,8 +37,8 @@
 #include <SoftwareSerial.h>
 #include "spoofer.h"
 
-const int TXPin = 5; // D1
-const int RXPin = 4; // D2
+const int TXPin = 2; // D4
+const int RXPin = 0; // D3
 
 SoftwareSerial ss(TXPin, RXPin);  // TX, RX
 Adafruit_GPS GPS(&ss);
@@ -130,6 +130,7 @@ void loop() {
     // Serial.println("Updating...");
     for (int i = 0; i < num_spoofers; i++) {
       spoofers[i].update();
-      delayMicroseconds(200000UL / (unsigned long)num_spoofers);
+      delay(200 / num_spoofers);
     }
-  }}
+  }
+}

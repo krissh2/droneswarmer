@@ -1,15 +1,17 @@
 #include "spoofer.h"
 
 void Spoofer::init() {
+  /*
   // time things
   memset(&clock_tm,0,sizeof(struct tm));
   clock_tm.tm_hour  =  10;
   clock_tm.tm_mday  =  16;
-  clock_tm.tm_mon   =  11;
+  clock_tm.tm_mon   =  11;      //nepareizs laiks
   clock_tm.tm_year  = 122;
   tv.tv_sec =
   time_2 = mktime(&clock_tm);
   settimeofday(&tv,&utc);
+  */
 
   // utm things
   memset(&utm_parameters,0,sizeof(utm_parameters));
@@ -20,6 +22,7 @@ void Spoofer::init() {
   squitter.init(&utm_parameters);
   memset(&utm_data,0,sizeof(utm_data));
 }
+
 
 void Spoofer::updateLocation(float latitude, float longitude) {
   // define location plus some noise
@@ -94,4 +97,14 @@ String Spoofer::getID() {
   }
   Serial.println("ID: " + ID);
   return ID;
+}
+
+void Spoofer::updateTime(int year, int month, int day,
+                         int hour, int minute, int second) {
+  utm_data.years   = year;
+  utm_data.months  = month;
+  utm_data.days    = day;
+  utm_data.hours   = hour;
+  utm_data.minutes = minute;
+  utm_data.seconds = second;
 }

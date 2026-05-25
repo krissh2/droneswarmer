@@ -53,7 +53,7 @@ struct UTM_data {
   double longitude_d;
   float  alt_msl_m;
   float  alt_agl_m;
-  int    speed_kn;
+  float    speed_kn;
   int    heading;
   char  *hdop_s;
   char  *vdop_s;

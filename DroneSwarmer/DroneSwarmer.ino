@@ -43,8 +43,8 @@ const int RXPin = 0; // D3
 SoftwareSerial ss(TXPin, RXPin);  // TX, RX
 Adafruit_GPS GPS(&ss);
 
-int num_spoofers = 16;
-Spoofer spoofers[16];
+int num_spoofers = 8;
+Spoofer spoofers[8];
 
 double latitude;
 double longitude;
@@ -124,13 +124,39 @@ void loop() {
       startProgram = true;
     }
   }
-
+/*
   // Update all spoofers
   if (startProgram) {
     // Serial.println("Updating...");
     for (int i = 0; i < num_spoofers; i++) {
       spoofers[i].update();
       delay(200 / num_spoofers);
+    }
+  }
+}
+*/
+
+if (startProgram) {
+    int gps_year   = 2000 + GPS.year;
+    int gps_month  = GPS.month;
+    int gps_day    = GPS.day;
+    int gps_hour   = GPS.hour;
+    int gps_minute = GPS.minute;
+    int gps_second = GPS.seconds;
+    
+    for (int i = 0; i < num_spoofers; i++) {
+      spoofers[i].updateTime(gps_year, gps_month, gps_day,
+                             gps_hour, gps_minute, gps_second);
+      spoofers[i].update();
+      
+      // Lasa GPS baitus aizturei vietā, lai nepieļautu buffer pārpildi
+      uint32_t wait_until = millis() + (200 / num_spoofers);
+      while (millis() < wait_until) {
+        GPS.read();  // lasa baitu pa baitam, kamēr ir aizture
+        if (GPS.newNMEAreceived()) {
+          GPS.parse(GPS.lastNMEA());  // parsē, ja virkne pilna
+        }
+      }
     }
   }
 }

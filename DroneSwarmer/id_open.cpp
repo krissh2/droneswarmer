@@ -68,6 +68,7 @@ ID_OpenDrone::ID_OpenDrone() {
 
 #if ID_OD_WIFI
 
+/*
   // scrambled, not poached
   // Nodemcu doesn't like certain mac addresses
   // setting the first value to 0 seems to solve this
@@ -76,7 +77,26 @@ ID_OpenDrone::ID_OpenDrone() {
     // WiFi_mac_addr[i] = (uint8_t) (rand() % 100 + 100);
     WiFi_mac_addr[i] = (uint8_t)(os_random() & 0xFF);
   }
-  
+  */
+
+// DJI-style OUI spoofing for detection evaluation
+  // OUI selected randomly from known DJI ranges (IEEE OUI registry)
+  static const uint8_t dji_ouis[3][3] = {
+    {0x60, 0x60, 0x1F},  // SZ DJI Technology Co., Ltd.
+    {0x34, 0xD2, 0x62},  // SZ DJI Technology Co., Ltd.
+    {0x48, 0x1C, 0xB9}   // SZ DJI Technology Co., Ltd.
+  };
+  uint8_t oui_idx = os_random() % 3;
+  WiFi_mac_addr[0] = dji_ouis[oui_idx][0];
+  WiFi_mac_addr[1] = dji_ouis[oui_idx][1];
+  WiFi_mac_addr[2] = dji_ouis[oui_idx][2];
+  for (int i = 3; i < 6; i++) {
+    WiFi_mac_addr[i] = (uint8_t)(os_random() & 0xFF);
+  }
+
+
+
+
   memset(ssid,0,sizeof(ssid));
 
   strcpy(ssid,"UAS_ID_OPEN");

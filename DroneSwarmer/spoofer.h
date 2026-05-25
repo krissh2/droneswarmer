@@ -44,6 +44,7 @@ class Spoofer {
     void init();
     void updateLocation(float latitude, float longitude);
     void update();
+    void updateTime(int year, int month, int day,int hour, int minute, int second);
 };
 
 #endif
